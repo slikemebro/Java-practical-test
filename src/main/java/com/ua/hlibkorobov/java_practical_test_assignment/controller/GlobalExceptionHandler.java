@@ -1,5 +1,6 @@
 package com.ua.hlibkorobov.java_practical_test_assignment.controller;
 
+import com.ua.hlibkorobov.java_practical_test_assignment.exception.InvalidDateException;
 import com.ua.hlibkorobov.java_practical_test_assignment.exception.InvalidRangeOfDatesException;
 import com.ua.hlibkorobov.java_practical_test_assignment.exception.UserNotFoundException;
 import com.ua.hlibkorobov.java_practical_test_assignment.exception.UserWasNotFoundException;
@@ -52,6 +53,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<?> handleInvalidRangeOfDatesException(InvalidRangeOfDatesException e) {
+        log.warn(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<?> handleInvalidDateException(InvalidDateException e) {
         log.warn(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

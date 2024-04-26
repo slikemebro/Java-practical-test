@@ -10,8 +10,6 @@ public interface UserService {
 
     User saveUser(User user);
 
-    User updateUser(User user, long id);
-
     void deleteUser(long id);
 
     List<User> findUsersByRangeOfDate(LocalDate fromDate, LocalDate toDate);

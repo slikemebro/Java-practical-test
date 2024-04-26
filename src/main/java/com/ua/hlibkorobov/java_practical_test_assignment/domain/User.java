@@ -1,13 +1,11 @@
 package com.ua.hlibkorobov.java_practical_test_assignment.domain;
 
-import com.ua.hlibkorobov.java_practical_test_assignment.anotations.Adult;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Getter;
@@ -26,19 +24,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "Email is required")
+    @NotNull(message = "Email is required")
     @Email(message = "must have an email address format")
     private String email;
 
-    @NotBlank(message = "First name is required")
+    @NotNull(message = "First name is required")
     private String firstName;
 
-    @NotBlank(message = "Last name is required")
+    @NotNull(message = "Last name is required")
     private String lastName;
 
     @NotNull(message = "Birth date is required")
     @Past(message = "must contain a past date")
-    @Adult
     private LocalDate birthDate;
 
     private String address;
