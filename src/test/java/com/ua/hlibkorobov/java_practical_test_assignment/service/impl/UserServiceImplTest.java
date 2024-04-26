@@ -2,6 +2,7 @@ package com.ua.hlibkorobov.java_practical_test_assignment.service.impl;
 
 import com.ua.hlibkorobov.java_practical_test_assignment.domain.User;
 import com.ua.hlibkorobov.java_practical_test_assignment.dto.UserDto;
+import com.ua.hlibkorobov.java_practical_test_assignment.exception.InvalidDateException;
 import com.ua.hlibkorobov.java_practical_test_assignment.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.transaction.TransactionSystemException;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -73,14 +75,13 @@ class UserServiceImplTest {
         user.setLastName("Korobov");
         user.setBirthDate(LocalDate.now());
 
-        assertThrows(TransactionSystemException.class, () -> userService.saveUser(user));
+        assertThrows(InvalidDateException.class, () -> userService.saveUser(user));
 
         user.setBirthDate(null);
-        assertThrows(TransactionSystemException.class, () -> userService.saveUser(user));
+        assertThrows(InvalidDateException.class, () -> userService.saveUser(user));
 
-        //todo with custom validation
         user.setBirthDate(LocalDate.now().minusYears(1));
-        assertThrows(TransactionSystemException.class, () -> userService.saveUser(user));
+        assertThrows(InvalidDateException.class, () -> userService.saveUser(user));
     }
 
     @Test
@@ -96,7 +97,7 @@ class UserServiceImplTest {
 
         user.setFirstName("Hlib");
         user.setBirthDate(null);
-        assertThrows(TransactionSystemException.class, () -> userService.saveUser(user));
+        assertThrows(InvalidDateException.class, () -> userService.saveUser(user));
 
         user.setBirthDate(LocalDate.of(2004, 1, 10));
         user.setLastName(null);
@@ -118,14 +119,14 @@ class UserServiceImplTest {
 
         assertEquals(user, userService.saveUser(user));
 
-        User updatedUser = new User();
+        UserDto updatedUser = new UserDto();
 
         updatedUser.setEmail("gkorobov10@gmail.com");
         updatedUser.setFirstName("Makar");
         updatedUser.setLastName("Schevchenko");
         updatedUser.setBirthDate(LocalDate.of(2005, 2, 2));
 
-        assertEquals(updatedUser, userService.updateUser(updatedUser, user.getId()));
+        assertNotEquals(updatedUser, userService.updateUser(user.getId(), updatedUser));
     }
 
     @Test

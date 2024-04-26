@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     /**
      * Deletes a user from the database.
      *
